@@ -83,7 +83,8 @@ class CaterProApp extends StatelessWidget {
       ),
       cardTheme: CardThemeData(
         color: surface,
-        elevation: 0,
+        elevation: dark ? 0 : 1,
+        shadowColor: Colors.black.withOpacity(dark ? 0.0 : 0.04),
         surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
