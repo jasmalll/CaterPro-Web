@@ -1,0 +1,15 @@
+CaterPro Premium UI + Light/Dark Mode Update
+
+This ZIP contains the project files directly at the ZIP root. Extract/overwrite these files INSIDE your existing CaterPro-Web project folder (the folder containing pubspec.yaml), not in its parent folder.
+
+Recommended safe process in Termux:
+1. Make a backup copy of your existing project folder first.
+2. Extract this ZIP into: ~/storage/shared/projects/caterpro/CaterPro-Web
+3. From that project folder run:
+   flutter pub get
+   flutter analyze
+4. Review the analysis output before deploying/pushing to GitHub.
+
+The update includes premium dashboard/screens styling and a persisted Light/Dark theme preference using the existing Hive settings box. A theme toggle is placed in the dashboard header. Existing provider/model/service files are included unchanged from the supplied upgrade archive.
+
+Important: This package has not been built or run on your device in this session. Review flutter analyze/build output before publishing.

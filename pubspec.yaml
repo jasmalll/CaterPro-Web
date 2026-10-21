@@ -1,0 +1,33 @@
+name: cater_pro
+description: "CaterPro - Catering Work & Finance Manager"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+  hive_flutter: ^1.1.0
+  intl: ^0.19.0
+  table_calendar: ^3.1.2
+  pdf: ^3.10.8
+  printing: ^5.13.0
+  share_plus: ^10.1.2
+  file_picker: ^8.1.4
+  path_provider: ^2.1.4
+  flutter_local_notifications: ^17.2.1
+  timezone: ^0.9.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
