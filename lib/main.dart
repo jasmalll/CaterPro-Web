@@ -75,7 +75,6 @@ class CaterProApp extends StatelessWidget {
         bodyColor: foreground,
         displayColor: foreground,
         fontFamily: 'Inter',
-      visualDensity: VisualDensity.standard,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: background,

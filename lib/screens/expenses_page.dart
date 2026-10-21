@@ -66,7 +66,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
               // 1. Header Row
               Row(
                 children: [
-                  const Icon(Icons.menu, size: 26, color: Theme.of(context).colorScheme.onSurface),
+                  Icon(Icons.menu, size: 26, color: Theme.of(context).colorScheme.onSurface),
                   const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.all(6),
@@ -74,7 +74,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       color: Theme.of(context).colorScheme.primary.withOpacity(0.09),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.account_balance_wallet_outlined, size: 20, color: Theme.of(context).colorScheme.onSurface),
+                    child: Icon(Icons.account_balance_wallet_outlined, size: 20, color: Theme.of(context).colorScheme.onSurface),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -120,13 +120,13 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.calendar_today_outlined, size: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          Icon(Icons.calendar_today_outlined, size: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           const SizedBox(width: 4),
                           Text(
                             currentMonthText,
                             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
                           ),
-                          const Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         ],
                       ),
                     ),
@@ -152,7 +152,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                         decoration: InputDecoration(
                           hintText: 'Search expenses...',
                           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
-                          prefixIcon: const Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
+                          prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.symmetric(vertical: 12),
                         ),
@@ -168,7 +168,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(color: Theme.of(context).dividerColor),
                     ),
-                    child: const Icon(Icons.tune_rounded, color: Theme.of(context).colorScheme.onSurface, size: 20),
+                    child: Icon(Icons.tune_rounded, color: Theme.of(context).colorScheme.onSurface, size: 20),
                   ),
                 ],
               ),
@@ -440,7 +440,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
           ),
 
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, size: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            icon: Icon(Icons.more_vert, size: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             onSelected: (val) {
@@ -557,7 +557,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.calendar_today_outlined, size: 16, color: Theme.of(context).colorScheme.onSurface),
+                            Icon(Icons.calendar_today_outlined, size: 16, color: Theme.of(context).colorScheme.onSurface),
                             const SizedBox(width: 8),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -571,7 +571,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             ),
                           ],
                         ),
-                        const Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ],
                     ),
                   ),
@@ -740,7 +740,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.calendar_today_outlined, size: 16, color: Theme.of(context).colorScheme.onSurface),
+                            Icon(Icons.calendar_today_outlined, size: 16, color: Theme.of(context).colorScheme.onSurface),
                             const SizedBox(width: 8),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -754,7 +754,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             ),
                           ],
                         ),
-                        const Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ],
                     ),
                   ),

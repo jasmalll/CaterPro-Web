@@ -62,7 +62,7 @@ class _WorksPageState extends State<WorksPage> {
               // 1. Header Row
               Row(
                 children: [
-                  const Icon(Icons.menu, size: 26, color: Theme.of(context).colorScheme.onSurface),
+                  Icon(Icons.menu, size: 26, color: Theme.of(context).colorScheme.onSurface),
                   const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.all(6),
@@ -70,7 +70,7 @@ class _WorksPageState extends State<WorksPage> {
                       color: Theme.of(context).colorScheme.primary.withOpacity(0.09),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.work_outline_rounded, size: 20, color: Theme.of(context).colorScheme.onSurface),
+                    child: Icon(Icons.work_outline_rounded, size: 20, color: Theme.of(context).colorScheme.onSurface),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -116,13 +116,13 @@ class _WorksPageState extends State<WorksPage> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.calendar_today_outlined, size: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          Icon(Icons.calendar_today_outlined, size: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           const SizedBox(width: 4),
                           Text(
                             currentMonthText,
                             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
                           ),
-                          const Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         ],
                       ),
                     ),
@@ -148,7 +148,7 @@ class _WorksPageState extends State<WorksPage> {
                         decoration: InputDecoration(
                           hintText: 'Search by venue, place or event...',
                           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
-                          prefixIcon: const Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
+                          prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 20),
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.symmetric(vertical: 12),
                         ),
@@ -164,7 +164,7 @@ class _WorksPageState extends State<WorksPage> {
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(color: Theme.of(context).dividerColor),
                     ),
-                    child: const Icon(Icons.tune_rounded, color: Theme.of(context).colorScheme.onSurface, size: 20),
+                    child: Icon(Icons.tune_rounded, color: Theme.of(context).colorScheme.onSurface, size: 20),
                   ),
                 ],
               ),
@@ -416,7 +416,7 @@ class _WorksPageState extends State<WorksPage> {
                 children: [
                   Text(
                     '₹ ${work.amount.toStringAsFixed(0)}',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -458,7 +458,7 @@ class _WorksPageState extends State<WorksPage> {
               ),
 
               PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert, size: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                icon: Icon(Icons.more_vert, size: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
                 onSelected: (val) {
@@ -519,7 +519,7 @@ class _WorksPageState extends State<WorksPage> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.calendar_today_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    Icon(Icons.calendar_today_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
                     const SizedBox(width: 4),
                     Text(work.dateText, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
                   ],
@@ -544,7 +544,7 @@ class _WorksPageState extends State<WorksPage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.people_alt_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      Icon(Icons.people_alt_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
                       const SizedBox(width: 4),
                       Text(work.paxCount, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
                     ],
@@ -673,7 +673,7 @@ class _WorksPageState extends State<WorksPage> {
                               const SizedBox(height: 2),
                               Row(
                                 children: [
-                                  const Icon(Icons.calendar_today_outlined, size: 13, color: Theme.of(context).colorScheme.onSurface),
+                                  Icon(Icons.calendar_today_outlined, size: 13, color: Theme.of(context).colorScheme.onSurface),
                                   const SizedBox(width: 5),
                                   Text(
                                     '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
@@ -711,7 +711,7 @@ class _WorksPageState extends State<WorksPage> {
                               const SizedBox(height: 2),
                               Row(
                                 children: [
-                                  const Icon(Icons.schedule, size: 13, color: Theme.of(context).colorScheme.onSurface),
+                                  Icon(Icons.schedule, size: 13, color: Theme.of(context).colorScheme.onSurface),
                                   const SizedBox(width: 5),
                                   Text(
                                     selectedTime.format(context),
