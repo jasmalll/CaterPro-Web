@@ -33,23 +33,33 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Work Schedule Calendar',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Event calendar', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 19, letterSpacing: -0.4)),
+            SizedBox(height: 2),
+            Text('Plan your catering schedule', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 11)),
+          ],
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade200, height: 1),
+          child: Container(color: Theme.of(context).dividerColor, height: 1),
         ),
       ),
       body: Column(
         children: [
           Container(
-            color: Theme.of(context).cardColor,
-            padding: const EdgeInsets.only(bottom: 12),
+            margin: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Theme.of(context).dividerColor),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(Theme.of(context).brightness == Brightness.dark ? 0 : 0.025), blurRadius: 18, offset: const Offset(0, 6))],
+            ),
             child: TableCalendar(
               firstDay: DateTime.utc(2025, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
@@ -64,16 +74,16 @@ class _CalendarPageState extends State<CalendarPage> {
               ),
               calendarStyle: CalendarStyle(
                 todayDecoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
                   shape: BoxShape.circle,
                 ),
-                todayTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                selectedDecoration: const BoxDecoration(
-                  color: Color(0xFF1E1E1E),
+                todayTextStyle: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                selectedDecoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
                   shape: BoxShape.circle,
                 ),
                 markerDecoration: const BoxDecoration(
-                  color: Colors.orange,
+                  color: const Color(0xFFD99A35),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -94,11 +104,11 @@ class _CalendarPageState extends State<CalendarPage> {
               children: [
                 Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle)),
                 const SizedBox(width: 6),
-                const Text('Paid', style: TextStyle(fontSize: 11, color: Colors.black54)),
+                Text('Paid', style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant)),
                 const SizedBox(width: 16),
                 Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.orange, shape: BoxShape.circle)),
                 const SizedBox(width: 6),
-                const Text('Pending', style: TextStyle(fontSize: 11, color: Colors.black54)),
+                Text('Pending', style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ],
             ),
           ),
@@ -110,7 +120,7 @@ class _CalendarPageState extends State<CalendarPage> {
               children: [
                 Text(
                   'Events on ${_selectedDay?.day ?? ""}/${_selectedDay?.month ?? ""}/${_selectedDay?.year ?? ""}',
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 14, fontWeight: FontWeight.w800),
                 ),
                 Text(
                   '${selectedWorks.length} Scheduled',
@@ -144,17 +154,17 @@ class _CalendarPageState extends State<CalendarPage> {
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(18),
-                          border: Border.all(color: const Color(0xFFE8EAEE)),
+                          border: Border.all(color: Theme.of(context).dividerColor),
                         ),
                         child: Row(
                           children: [
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.09),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.outdoor_grill_outlined, size: 18),
+                              child: Icon(Icons.outdoor_grill_outlined, size: 18, color: Theme.of(context).colorScheme.primary),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
@@ -163,7 +173,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 children: [
                                   Text(
                                     item.venue,
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5),
+                                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, fontSize: 13.5),
                                   ),
                                   Text(
                                     item.location,
@@ -177,7 +187,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               children: [
                                 Text(
                                   '₹ ${item.amount.toStringAsFixed(0)}',
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5),
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, fontSize: 13.5),
                                 ),
                                 Text(
                                   item.status,

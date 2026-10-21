@@ -48,7 +48,7 @@ class _WorksPageState extends State<WorksPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: const Color(0xFF16865B),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text('Add Work', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         onPressed: () => _showAddWorkSheet(context),
@@ -67,7 +67,7 @@ class _WorksPageState extends State<WorksPage> {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.04),
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.09),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.work_outline_rounded, size: 20, color: Colors.black87),
@@ -111,7 +111,7 @@ class _WorksPageState extends State<WorksPage> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: Theme.of(context).dividerColor),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -139,8 +139,8 @@ class _WorksPageState extends State<WorksPage> {
                       height: 46,
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: const Color(0xFFE8EAEE)),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Theme.of(context).dividerColor),
                       ),
                       child: TextField(
                         controller: _searchController,
@@ -162,7 +162,7 @@ class _WorksPageState extends State<WorksPage> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: const Color(0xFFE8EAEE)),
+                      border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: const Icon(Icons.tune_rounded, color: Colors.black87, size: 20),
                   ),
@@ -183,7 +183,7 @@ class _WorksPageState extends State<WorksPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? const Color(0xFF1E1E1E) : Theme.of(context).cardColor,
+                            color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: isSelected ? Colors.transparent : Colors.grey.shade300,
@@ -194,7 +194,7 @@ class _WorksPageState extends State<WorksPage> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.white : Colors.black87,
+                              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -282,7 +282,7 @@ class _WorksPageState extends State<WorksPage> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +324,7 @@ class _WorksPageState extends State<WorksPage> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -786,7 +786,7 @@ class _WorksPageState extends State<WorksPage> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1E1E1E)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, foregroundColor: Colors.white),
                     onPressed: () {
                       if (venueController.text.trim().isEmpty) return;
 
@@ -1019,7 +1019,7 @@ class _WorksPageState extends State<WorksPage> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1E1E1E)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, foregroundColor: Colors.white),
                     onPressed: () {
                       final total = double.tryParse(amountController.text) ?? work.amount;
                       final received = double.tryParse(advanceController.text) ?? (work.amount - work.balance);

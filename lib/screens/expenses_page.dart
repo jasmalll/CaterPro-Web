@@ -52,7 +52,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: const Color(0xFF16865B),
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text('Add Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         onPressed: () => _showAddExpenseSheet(context),
@@ -71,7 +71,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.04),
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.09),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.account_balance_wallet_outlined, size: 20, color: Colors.black87),
@@ -115,7 +115,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: Theme.of(context).dividerColor),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -143,8 +143,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       height: 46,
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: const Color(0xFFE8EAEE)),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Theme.of(context).dividerColor),
                       ),
                       child: TextField(
                         controller: _searchController,
@@ -166,7 +166,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: const Color(0xFFE8EAEE)),
+                      border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: const Icon(Icons.tune_rounded, color: Colors.black87, size: 20),
                   ),
@@ -187,7 +187,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? const Color(0xFF1E1E1E) : Theme.of(context).cardColor,
+                            color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: isSelected ? Colors.transparent : Colors.grey.shade300,
@@ -198,7 +198,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.white : Colors.black87,
+                              color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -286,7 +286,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +332,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -625,7 +625,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1E1E1E)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, foregroundColor: Colors.white),
                     onPressed: () {
                       if (titleController.text.trim().isEmpty) return;
 
@@ -806,7 +806,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1E1E1E)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, foregroundColor: Colors.white),
                     onPressed: () {
                       final amount = double.tryParse(amountController.text) ?? expense.amount;
                       final finalCat = (isCustom && customCatController.text.trim().isNotEmpty)

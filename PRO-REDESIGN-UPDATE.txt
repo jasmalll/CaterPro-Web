@@ -1,0 +1,12 @@
+CaterPro Pro UI Refresh
+
+This package keeps the existing CaterPro Flutter application structure and business logic while aligning the remaining screens with the premium visual system used by Home and Financial Reports.
+
+Visual updates in this refresh:
+- Works: emerald primary actions, consistent theme borders, refined filters and search surfaces.
+- Expenses: matching emerald actions, consistent theme borders, refined filters and search surfaces.
+- Calendar: premium event-calendar header, rounded bordered calendar panel, theme-aware selected/today states, and matching event cards.
+- Home Dashboard and Financial Summary retain the premium design already present in this project.
+- Light/dark theme setup and existing providers, models, Hive storage, PDF and notification services are retained.
+
+Important: This archive was not built with Flutter in this environment. Run `flutter analyze` and `flutter build web --release --base-href "/CaterPro-Web/"` before pushing to GitHub.
