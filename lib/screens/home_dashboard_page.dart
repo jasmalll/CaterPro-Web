@@ -1,600 +1,243 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/catering_provider.dart';
 import '../models/catering_models.dart';
-import 'calendar_page.dart';
+import '../providers/catering_provider.dart';
 import '../theme/caterpro_theme_controller.dart';
+import 'calendar_page.dart';
 
 class HomeDashboardPage extends StatelessWidget {
-  const HomeDashboardPage({Key? key}) : super(key: key);
+  const HomeDashboardPage({super.key});
 
-  String get currentMonthText {
-    const shortMonths = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    final now = DateTime.now();
-    return '${shortMonths[now.month - 1]} ${now.year}';
-  }
+  String _money(double amount) => '₹${amount.toStringAsFixed(0)}';
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<CateringProvider>();
-    final income = provider.totalIncome;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
     final received = provider.receivedAmount;
-    final expense = provider.totalExpenses;
     final pending = provider.pendingAmount;
-
-    // കൃത്യമായ കണക്ക്: കയ്യിൽ കിട്ടിയ തുകയിൽ നിന്ന് മാത്രം ചെലവ് കുറയ്ക്കുന്നു
-    final savings = received - expense;
-
-    // ശതമാനം കണക്കാക്കുന്നു (Total Income-മായി താരതമ്യം ചെയ്ത്)
-    final double expenseRatio = income > 0 ? (expense / income).clamp(0.0, 1.0) : 0.0;
-    final double savingsRatio = income > 0 ? (savings > 0 ? (savings / income).clamp(0.0, 1.0) : 0.0) : 0.0;
-
-    final int expensePercent = (expenseRatio * 100).round();
-    final int savingsPercent = (savingsRatio * 100).round();
-
-    // ഏറ്റവും പുതിയ 3 വർക്കുകൾ മുകളിൽ കാണിക്കാൻ
-    final recentWorks = provider.works.reversed.take(3).toList();
+    final expenses = provider.totalExpenses;
+    final cashInHand = received - expenses;
+    final totalIncome = provider.totalIncome;
+    final works = provider.works.toList()..sort((a, b) => b.date.compareTo(a.date));
+    final recentWorks = works.take(4).toList();
+    final now = DateTime.now();
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 1. Top Header Row
-              Row(
-                children: [
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
+              sliver: SliverList(delegate: SliverChildListDelegate([
+                Row(children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1E1E),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.restaurant_menu, color: Colors.white, size: 20),
+                    width: 46, height: 46,
+                    decoration: BoxDecoration(color: const Color(0xFF142B3A), borderRadius: BorderRadius.circular(15)),
+                    child: const Icon(Icons.restaurant_menu_rounded, color: Colors.white, size: 23),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'CaterPro',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -0.5,
-                            color: Colors.black87,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          'Catering & Event Manager',
-                          style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-
-                  // Calendar Button
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CalendarPage()),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.calendar_today_outlined, size: 12, color: Colors.black54),
-                          const SizedBox(width: 4),
-                          Text(
-                            currentMonthText,
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const SizedBox(width: 12),
+                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('CaterPro', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900, letterSpacing: -0.7)),
+                    Text('Catering business, under control', style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(.68))),
+                  ])),
+                  _HeaderIcon(icon: Icons.calendar_month_rounded, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CalendarPage()))),
+                  const SizedBox(width: 8),
+                  Consumer<CaterProThemeController>(builder: (context, controller, _) => _HeaderIcon(
+                    icon: controller.isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                    onTap: controller.toggle,
+                  )),
                   const SizedBox(width: 4),
-
-                  // One-tap Light / Dark mode toggle
-                  Consumer<CaterProThemeController>(
-                    builder: (context, themeController, _) => IconButton(
-                      tooltip: themeController.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-                      visualDensity: VisualDensity.compact,
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(minWidth: 34, minHeight: 34),
-                      onPressed: () => themeController.toggle(),
-                      icon: Icon(
-                        themeController.isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 2),
-
-                  // Backup & Restore Menu
                   PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert, color: Colors.black87, size: 20),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onSelected: (val) {
-                      if (val == 'export') {
-                        provider.exportBackup(context);
-                      } else if (val == 'restore') {
-                        provider.restoreBackup(context);
-                      }
+                    tooltip: 'Backup & restore',
+                    icon: Icon(Icons.more_horiz_rounded, color: theme.colorScheme.onSurface),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    onSelected: (value) {
+                      if (value == 'backup') provider.exportBackup(context);
+                      if (value == 'restore') provider.restoreBackup(context);
                     },
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(
-                        value: 'export',
-                        child: Row(
-                          children: [
-                            Icon(Icons.upload_file_outlined, size: 18, color: Colors.blue),
-                            SizedBox(width: 10),
-                            Text('Export Backup', style: TextStyle(fontSize: 13)),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuItem(
-                        value: 'restore',
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings_backup_restore_outlined, size: 18, color: Colors.green),
-                            SizedBox(width: 10),
-                            Text('Restore Backup', style: TextStyle(fontSize: 13)),
-                          ],
-                        ),
-                      ),
+                    itemBuilder: (_) => const [
+                      PopupMenuItem(value: 'backup', child: ListTile(contentPadding: EdgeInsets.zero, leading: Icon(Icons.cloud_upload_outlined), title: Text('Export backup'))),
+                      PopupMenuItem(value: 'restore', child: ListTile(contentPadding: EdgeInsets.zero, leading: Icon(Icons.settings_backup_restore_rounded), title: Text('Restore backup'))),
                     ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 18),
-
-              // 2. Financial Overview Cards (2x2 Grid)
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildMetricCard(
-                      title: 'Total Income',
-                      value: '₹ ${income.toStringAsFixed(0)}',
-                      icon: Icons.payments_outlined,
-                      color: const Color(0xFF2E7D32),
-                      bgColor: const Color(0xFFE8F5E9),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _buildMetricCard(
-                      title: 'Total Expenses',
-                      value: '₹ ${expense.toStringAsFixed(0)}',
-                      icon: Icons.account_balance_wallet_outlined,
-                      color: const Color(0xFFE53935),
-                      bgColor: const Color(0xFFFFEBEE),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildMetricCard(
-                      title: 'Cash in Hand',
-                      value: savings >= 0
-                          ? '₹ ${savings.toStringAsFixed(0)}'
-                          : '- ₹ ${savings.abs().toStringAsFixed(0)}',
-                      icon: Icons.savings_outlined,
-                      color: savings >= 0 ? const Color(0xFF1976D2) : Colors.red,
-                      bgColor: const Color(0xFFE3F2FD),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _buildMetricCard(
-                      title: 'Total Works',
-                      value: '${provider.totalWorksCount} Booked',
-                      icon: Icons.assignment_outlined,
-                      color: const Color(0xFF424242),
-                      bgColor: Colors.grey.shade100,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-
-              // 3. Received & Pending Mini Summary
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFE8EAEE)),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.check_circle, color: Color(0xFF2E7D32), size: 16),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Received Cash', style: TextStyle(fontSize: 10, color: Colors.grey)),
-                                Text(
-                                  '₹ ${received.toStringAsFixed(0)}',
-                                  style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFF2E7D32)),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(height: 24, width: 1, color: Colors.grey.shade300),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.access_time_rounded, color: Color(0xFFF57C00), size: 16),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Pending Balance', style: TextStyle(fontSize: 10, color: Colors.grey)),
-                                Text(
-                                  '₹ ${pending.toStringAsFixed(0)}',
-                                  style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: Color(0xFFF57C00)),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // 4. INCOME VS EXPENSES VS SAVINGS CHART CARD
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE8EAEE)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Row(
-                          children: [
-                            Icon(Icons.bar_chart_rounded, size: 18, color: Colors.black87),
-                            SizedBox(width: 6),
-                            Text(
-                              'Money Breakdown',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          savings >= 0 ? '$savingsPercent% In Hand' : 'Loss',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: savings >= 0 ? const Color(0xFF1976D2) : Colors.red,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-
-                    // Total Income Bar
-                    _buildChartRow(
-                      label: 'Income (Total)',
-                      amount: '₹ ${income.toStringAsFixed(0)}',
-                      ratio: income > 0 ? 1.0 : 0.0,
-                      percentageText: '100%',
-                      barColor: const Color(0xFF2E7D32),
-                      bgColor: const Color(0xFFE8F5E9),
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Expenses Bar
-                    _buildChartRow(
-                      label: 'Expenses',
-                      amount: '₹ ${expense.toStringAsFixed(0)}',
-                      ratio: expenseRatio,
-                      percentageText: '$expensePercent%',
-                      barColor: const Color(0xFFE53935),
-                      bgColor: const Color(0xFFFFEBEE),
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Savings Bar (Calculated from Received - Expense)
-                    _buildChartRow(
-                      label: 'Cash in Hand',
-                      amount: savings >= 0 ? '₹ ${savings.toStringAsFixed(0)}' : '- ₹ ${savings.abs().toStringAsFixed(0)}',
-                      ratio: savingsRatio,
-                      percentageText: '$savingsPercent%',
-                      barColor: const Color(0xFF1976D2),
-                      bgColor: const Color(0xFFE3F2FD),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
-
-              // 5. Recent Works Section Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Recent Works',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87),
-                  ),
-                  Text(
-                    '${provider.works.length} Total',
-                    style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-
-              // 6. Recent Works List
-              if (recentWorks.isEmpty)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Text(
-                      'No catering works added yet.\nGo to Works tab to book events.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-                    ),
-                  ),
-                )
-              else
-                ...recentWorks.map((work) => _buildRecentWorkTile(work)).toList(),
-
-              const SizedBox(height: 30),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChartRow({
-    required String label,
-    required String amount,
-    required double ratio,
-    required String percentageText,
-    required Color barColor,
-    required Color bgColor,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
+                ]),
+                const SizedBox(height: 28),
+                Text('Good ${now.hour < 12 ? 'morning' : now.hour < 17 ? 'afternoon' : 'evening'} 👋', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900, letterSpacing: -0.8)),
+                const SizedBox(height: 5),
+                Text('Here is your business overview for today.', style: theme.textTheme.bodyMedium?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(.75))),
+                const SizedBox(height: 20),
                 Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(color: barColor, shape: BoxShape.circle),
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(22),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF17394A), Color(0xFF102630)]),
+                    borderRadius: BorderRadius.circular(26),
+                    boxShadow: [BoxShadow(color: const Color(0xFF142B3A).withOpacity(.16), blurRadius: 22, offset: const Offset(0, 10))],
+                  ),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Row(children: [
+                      const Expanded(child: Text('CASH IN HAND', style: TextStyle(color: Color(0xFFB9CFD5), fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.3))),
+                      Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(color: Colors.white.withOpacity(.10), borderRadius: BorderRadius.circular(30)), child: Text('${months[now.month - 1]} ${now.year}', style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w700))),
+                    ]),
+                    const SizedBox(height: 12),
+                    Text(_money(cashInHand), style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w900, letterSpacing: -1.2)),
+                    const SizedBox(height: 7),
+                    Text('Received cash minus recorded expenses', style: TextStyle(color: Colors.white.withOpacity(.68), fontSize: 12)),
+                    const SizedBox(height: 22),
+                    Container(height: 1, color: Colors.white.withOpacity(.14)),
+                    const SizedBox(height: 16),
+                    Row(children: [
+                      Expanded(child: _HeroMiniMetric(label: 'Received', amount: _money(received), icon: Icons.south_west_rounded, color: const Color(0xFF70D9A5))),
+                      Container(width: 1, height: 38, color: Colors.white.withOpacity(.16)),
+                      const SizedBox(width: 16),
+                      Expanded(child: _HeroMiniMetric(label: 'Pending', amount: _money(pending), icon: Icons.schedule_rounded, color: const Color(0xFFFFC66D))),
+                    ]),
+                  ]),
                 ),
-                const SizedBox(width: 6),
-                Text(
-                  label,
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.black87),
+                const SizedBox(height: 24),
+                const _SectionHeading(title: 'Financial snapshot', subtitle: 'Your numbers at a glance'),
+                const SizedBox(height: 13),
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1.48,
+                  children: [
+                    _SnapshotCard(title: 'Total income', value: _money(totalIncome), icon: Icons.account_balance_wallet_rounded, tint: const Color(0xFF16865B)),
+                    _SnapshotCard(title: 'Expenses', value: _money(expenses), icon: Icons.receipt_long_rounded, tint: const Color(0xFFD65D52)),
+                    _SnapshotCard(title: 'Booked works', value: '${provider.totalWorksCount}', icon: Icons.event_available_rounded, tint: const Color(0xFF5579D6), footnote: 'All time'),
+                    _SnapshotCard(title: 'Outstanding', value: _money(pending), icon: Icons.hourglass_bottom_rounded, tint: const Color(0xFFD99A35)),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  amount,
-                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.bold, color: barColor),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  '($percentageText)',
-                  style: TextStyle(fontSize: 9.5, color: Colors.grey.shade600),
-                ),
-              ],
+                const SizedBox(height: 25),
+                const _SectionHeading(title: 'Money flow', subtitle: 'Received vs pending payments'),
+                const SizedBox(height: 13),
+                _SurfaceCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    Text('Collection progress', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
+                    Text(totalIncome > 0 ? '${((received / totalIncome).clamp(0.0, 1.0) * 100).round()}% received' : 'No income yet', style: theme.textTheme.labelMedium?.copyWith(color: colors.primary, fontWeight: FontWeight.w800)),
+                  ]),
+                  const SizedBox(height: 14),
+                  ClipRRect(borderRadius: BorderRadius.circular(20), child: LinearProgressIndicator(value: totalIncome > 0 ? (received / totalIncome).clamp(0.0, 1.0) : 0, minHeight: 9, backgroundColor: theme.dividerColor.withOpacity(.7), valueColor: const AlwaysStoppedAnimation(Color(0xFF16865B)))),
+                  const SizedBox(height: 16),
+                  Row(children: [
+                    Expanded(child: _FlowLegend(label: 'Received', amount: _money(received), dot: const Color(0xFF16865B))),
+                    const SizedBox(width: 12),
+                    Expanded(child: _FlowLegend(label: 'Pending', amount: _money(pending), dot: const Color(0xFFD99A35))),
+                  ]),
+                ])),
+                const SizedBox(height: 25),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  const Expanded(child: _SectionHeading(title: 'Recent works', subtitle: 'Your latest event bookings')),
+                  Text('${provider.works.length} total', style: theme.textTheme.labelMedium?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(.7), fontWeight: FontWeight.w700)),
+                ]),
+                const SizedBox(height: 13),
+                if (recentWorks.isEmpty)
+                  _SurfaceCard(child: Padding(padding: const EdgeInsets.symmetric(vertical: 20), child: Center(child: Column(children: [
+                    Container(width: 56, height: 56, decoration: BoxDecoration(color: colors.primary.withOpacity(.09), shape: BoxShape.circle), child: Icon(Icons.event_note_rounded, color: colors.primary, size: 26)),
+                    const SizedBox(height: 12),
+                    Text('Your next event starts here', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 5),
+                    Text('Add a work from the Works tab to see it here.', textAlign: TextAlign.center, style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(.7))),
+                  ]))))
+                else
+                  ...recentWorks.map((work) => Padding(padding: const EdgeInsets.only(bottom: 10), child: _RecentWorkCard(work: work))),
+                const SizedBox(height: 6),
+              ])),
             ),
           ],
         ),
-        const SizedBox(height: 5),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: Stack(
-            children: [
-              Container(
-                height: 7,
-                width: double.infinity,
-                color: bgColor,
-              ),
-              FractionallySizedBox(
-                widthFactor: ratio,
-                child: Container(
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: barColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMetricCard({
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
-    required Color bgColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
-                child: Icon(icon, size: 14, color: color),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 10, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14.5,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
       ),
     );
   }
+}
 
-  Widget _buildRecentWorkTile(WorkItem work) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFE8EAEE)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(7),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(work.icon, size: 16, color: Colors.black87),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        work.venue,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        work.eventType,
-                        style: TextStyle(fontSize: 8.5, fontWeight: FontWeight.bold, color: Colors.blue.shade800),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  '${work.dateText} • Report: ${work.reportingTime}',
-                  style: TextStyle(fontSize: 10.5, color: Colors.grey.shade600),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '₹ ${work.amount.toStringAsFixed(0)}',
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                work.status,
-                style: TextStyle(
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.bold,
-                  color: work.isPaid ? const Color(0xFF2E7D32) : const Color(0xFFF57C00),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+class _HeaderIcon extends StatelessWidget {
+  const _HeaderIcon({required this.icon, required this.onTap});
+  final IconData icon;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Theme.of(context).cardColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14), side: BorderSide(color: Theme.of(context).dividerColor)),
+    child: InkWell(onTap: onTap, borderRadius: BorderRadius.circular(14), child: SizedBox(width: 40, height: 40, child: Icon(icon, size: 19, color: Theme.of(context).colorScheme.onSurface))),
+  );
+}
+
+class _SectionHeading extends StatelessWidget {
+  const _SectionHeading({required this.title, required this.subtitle});
+  final String title;
+  final String subtitle;
+  @override
+  Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900, letterSpacing: -.35)),
+    const SizedBox(height: 3),
+    Text(subtitle, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(.7))),
+  ]);
+}
+
+class _HeroMiniMetric extends StatelessWidget {
+  const _HeroMiniMetric({required this.label, required this.amount, required this.icon, required this.color});
+  final String label; final String amount; final IconData icon; final Color color;
+  @override
+  Widget build(BuildContext context) => Row(children: [
+    Container(width: 34, height: 34, decoration: BoxDecoration(color: color.withOpacity(.14), borderRadius: BorderRadius.circular(11)), child: Icon(icon, color: color, size: 17)),
+    const SizedBox(width: 9),
+    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(label, style: TextStyle(color: Colors.white.withOpacity(.65), fontSize: 11)), const SizedBox(height: 3), Text(amount, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w800))])),
+  ]);
+}
+
+class _SnapshotCard extends StatelessWidget {
+  const _SnapshotCard({required this.title, required this.value, required this.icon, required this.tint, this.footnote});
+  final String title; final String value; final IconData icon; final Color tint; final String? footnote;
+  @override
+  Widget build(BuildContext context) => _SurfaceCard(padding: const EdgeInsets.all(15), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    Row(children: [Container(width: 34, height: 34, decoration: BoxDecoration(color: tint.withOpacity(.11), borderRadius: BorderRadius.circular(11)), child: Icon(icon, color: tint, size: 18)), const Spacer(), if (footnote != null) Text(footnote!, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(.65))) ]),
+    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(.72))), const SizedBox(height: 4), FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text(value, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 21, fontWeight: FontWeight.w900, letterSpacing: -.7))) ]),
+  ]));
+}
+
+class _SurfaceCard extends StatelessWidget {
+  const _SurfaceCard({required this.child, this.padding = const EdgeInsets.all(18)});
+  final Widget child; final EdgeInsets padding;
+  @override
+  Widget build(BuildContext context) => Container(padding: padding, decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(22), border: Border.all(color: Theme.of(context).dividerColor)), child: child);
+}
+
+class _FlowLegend extends StatelessWidget {
+  const _FlowLegend({required this.label, required this.amount, required this.dot});
+  final String label; final String amount; final Color dot;
+  @override
+  Widget build(BuildContext context) => Row(children: [Container(width: 8, height: 8, decoration: BoxDecoration(color: dot, shape: BoxShape.circle)), const SizedBox(width: 7), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(label, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(.72))), const SizedBox(height: 3), Text(amount, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900))]))]);
+}
+
+class _RecentWorkCard extends StatelessWidget {
+  const _RecentWorkCard({required this.work});
+  final WorkItem work;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final paidColor = const Color(0xFF16865B);
+    final statusColor = work.isPaid ? paidColor : const Color(0xFFD99A35);
+    return Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: theme.cardColor, borderRadius: BorderRadius.circular(20), border: Border.all(color: theme.dividerColor)), child: Row(children: [
+      Container(width: 46, height: 46, decoration: BoxDecoration(color: theme.colorScheme.primary.withOpacity(.09), borderRadius: BorderRadius.circular(15)), child: Icon(work.icon, color: theme.colorScheme.primary, size: 22)),
+      const SizedBox(width: 12),
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(work.venue, maxLines: 1, overflow: TextOverflow.ellipsis, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
+        const SizedBox(height: 4),
+        Text('${work.eventType}  ·  ${work.dateText}', maxLines: 1, overflow: TextOverflow.ellipsis, style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodySmall?.color?.withOpacity(.7))),
+        const SizedBox(height: 7),
+        Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: statusColor.withOpacity(.11), borderRadius: BorderRadius.circular(30)), child: Text(work.isPaid ? 'PAID' : 'PAYMENT PENDING', style: TextStyle(color: statusColor, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .4))),
+      ])),
+      const SizedBox(width: 10),
+      Text('₹${work.amount.toStringAsFixed(0)}', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w900, letterSpacing: -.4)),
+    ]));
   }
 }

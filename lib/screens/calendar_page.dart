@@ -37,8 +37,8 @@ class _CalendarPageState extends State<CalendarPage> {
           'Work Schedule Calendar',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
@@ -48,7 +48,7 @@ class _CalendarPageState extends State<CalendarPage> {
       body: Column(
         children: [
           Container(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             padding: const EdgeInsets.only(bottom: 12),
             child: TableCalendar(
               firstDay: DateTime.utc(2025, 1, 1),
@@ -142,7 +142,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         margin: const EdgeInsets.only(bottom: 10),
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(18),
                           border: Border.all(color: const Color(0xFFE8EAEE)),
                         ),

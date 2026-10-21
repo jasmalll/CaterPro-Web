@@ -109,7 +109,7 @@ class _WorksPageState extends State<WorksPage> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
@@ -138,7 +138,7 @@ class _WorksPageState extends State<WorksPage> {
                     child: Container(
                       height: 46,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(18),
                         border: Border.all(color: const Color(0xFFE8EAEE)),
                       ),
@@ -160,7 +160,7 @@ class _WorksPageState extends State<WorksPage> {
                     height: 46,
                     width: 46,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(18),
                       border: Border.all(color: const Color(0xFFE8EAEE)),
                     ),
@@ -183,7 +183,7 @@ class _WorksPageState extends State<WorksPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? const Color(0xFF1E1E1E) : Colors.white,
+                            color: isSelected ? const Color(0xFF1E1E1E) : Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: isSelected ? Colors.transparent : Colors.grey.shade300,
@@ -280,7 +280,7 @@ class _WorksPageState extends State<WorksPage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE8EAEE)),
       ),
@@ -322,7 +322,7 @@ class _WorksPageState extends State<WorksPage> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE8EAEE)),
       ),

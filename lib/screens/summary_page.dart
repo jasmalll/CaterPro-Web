@@ -55,9 +55,9 @@ class _SummaryPageState extends State<SummaryPage> {
       appBar: AppBar(
         title: const Text(
           'Monthly Financial Report',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black87),
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, color: Theme.of(context).colorScheme.onSurface),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.5,
         centerTitle: false,
       ),
@@ -70,7 +70,7 @@ class _SummaryPageState extends State<SummaryPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: const Color(0xFFE8EAEE)),
               ),
@@ -159,7 +159,7 @@ class _SummaryPageState extends State<SummaryPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: const Color(0xFFE8EAEE)),
               ),
@@ -315,7 +315,7 @@ class _SummaryPageState extends State<SummaryPage> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE8EAEE)),
       ),
