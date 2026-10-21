@@ -77,7 +77,7 @@ class CaterProApp extends StatelessWidget {
         elevation: 0,
         surfaceTintColor: Colors.transparent,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: dark ? const Color(0xFF171B20) : Colors.white,
         elevation: dark ? 0 : 1,
         shadowColor: Colors.black.withOpacity(dark ? 0.0 : 0.04),
