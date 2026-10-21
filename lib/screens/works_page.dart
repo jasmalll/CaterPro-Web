@@ -50,7 +50,7 @@ class _WorksPageState extends State<WorksPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color(0xFF16865B),
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Add Work', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        label: Text('Add Work', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         onPressed: () => _showAddWorkSheet(context),
       ),
       body: SafeArea(
@@ -78,7 +78,7 @@ class _WorksPageState extends State<WorksPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Works',
                           style: TextStyle(
                             fontSize: 20,
@@ -120,7 +120,7 @@ class _WorksPageState extends State<WorksPage> {
                           const SizedBox(width: 4),
                           Text(
                             currentMonthText,
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
+                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
                           ),
                           Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         ],
@@ -304,7 +304,7 @@ class _WorksPageState extends State<WorksPage> {
           const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onSurface,
@@ -368,7 +368,7 @@ class _WorksPageState extends State<WorksPage> {
                         Flexible(
                           child: Text(
                             work.venue,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13.5,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -521,7 +521,7 @@ class _WorksPageState extends State<WorksPage> {
                   children: [
                     Icon(Icons.calendar_today_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
                     const SizedBox(width: 4),
-                    Text(work.dateText, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
+                    Text(work.dateText, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),
@@ -533,7 +533,7 @@ class _WorksPageState extends State<WorksPage> {
                   children: [
                     const Icon(Icons.schedule, size: 10.5, color: Color(0xFFF57F17)),
                     const SizedBox(width: 4),
-                    Text('Report: ${work.reportingTime}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFF57F17))),
+                    Text('Report: ${work.reportingTime}', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFF57F17))),
                   ],
                 ),
               ),
@@ -546,7 +546,7 @@ class _WorksPageState extends State<WorksPage> {
                     children: [
                       Icon(Icons.people_alt_outlined, size: 10.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
                       const SizedBox(width: 4),
-                      Text(work.paxCount, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
+                      Text(work.paxCount, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ),
@@ -600,7 +600,7 @@ class _WorksPageState extends State<WorksPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Book Catering Work', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Book Catering Work', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
                   ],
                 ),
@@ -634,7 +634,7 @@ class _WorksPageState extends State<WorksPage> {
                         value: selectedEventType,
                         decoration: const InputDecoration(labelText: 'Event Type', border: OutlineInputBorder()),
                         items: ['Wedding', 'Reception', 'Birthday', 'Corporate', 'Other'].map((type) {
-                          return DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontSize: 13)));
+                          return DropdownMenuItem(value: type, child: Text(type, style: TextStyle(fontSize: 13)));
                         }).toList(),
                         onChanged: (val) {
                           if (val != null) setModalState(() => selectedEventType = val);
@@ -669,7 +669,7 @@ class _WorksPageState extends State<WorksPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Event Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                              Text('Event Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                               const SizedBox(height: 2),
                               Row(
                                 children: [
@@ -677,7 +677,7 @@ class _WorksPageState extends State<WorksPage> {
                                   const SizedBox(width: 5),
                                   Text(
                                     '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                                    style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -707,7 +707,7 @@ class _WorksPageState extends State<WorksPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Reporting Time', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                              Text('Reporting Time', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                               const SizedBox(height: 2),
                               Row(
                                 children: [
@@ -715,7 +715,7 @@ class _WorksPageState extends State<WorksPage> {
                                   const SizedBox(width: 5),
                                   Text(
                                     selectedTime.format(context),
-                                    style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -819,7 +819,7 @@ class _WorksPageState extends State<WorksPage> {
 
                       Navigator.pop(ctx);
                     },
-                    child: const Text('Save Catering Work', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: Text('Save Catering Work', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -865,7 +865,7 @@ class _WorksPageState extends State<WorksPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Edit Catering Work', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Edit Catering Work', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
                   ],
                 ),
@@ -893,7 +893,7 @@ class _WorksPageState extends State<WorksPage> {
                             : 'Other',
                         decoration: const InputDecoration(labelText: 'Event Type', border: OutlineInputBorder()),
                         items: ['Wedding', 'Reception', 'Birthday', 'Corporate', 'Other'].map((type) {
-                          return DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontSize: 13)));
+                          return DropdownMenuItem(value: type, child: Text(type, style: TextStyle(fontSize: 13)));
                         }).toList(),
                         onChanged: (val) {
                           if (val != null) setModalState(() => selectedEventType = val);
@@ -928,11 +928,11 @@ class _WorksPageState extends State<WorksPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Event Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                              Text('Event Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                               const SizedBox(height: 2),
                               Text(
                                 '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                                style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
+                                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -960,11 +960,11 @@ class _WorksPageState extends State<WorksPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Reporting Time', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                              Text('Reporting Time', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                               const SizedBox(height: 2),
                               Text(
                                 reportingTime,
-                                style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
+                                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -1047,7 +1047,7 @@ class _WorksPageState extends State<WorksPage> {
 
                       Navigator.pop(ctx);
                     },
-                    child: const Text('Save Changes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: Text('Save Changes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -1062,10 +1062,10 @@ class _WorksPageState extends State<WorksPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Work?'),
-        content: const Text('Are you sure you want to remove this catering record?'),
+        title: Text('Delete Work?'),
+        content: Text('Are you sure you want to remove this catering record?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Cancel')),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () {
@@ -1077,7 +1077,7 @@ class _WorksPageState extends State<WorksPage> {
 
               Navigator.pop(ctx);
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

@@ -54,7 +54,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color(0xFF16865B),
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Add Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        label: Text('Add Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         onPressed: () => _showAddExpenseSheet(context),
       ),
       body: SafeArea(
@@ -82,7 +82,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Expenses',
                           style: TextStyle(
                             fontSize: 20,
@@ -124,7 +124,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           const SizedBox(width: 4),
                           Text(
                             currentMonthText,
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
+                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
                           ),
                           Icon(Icons.keyboard_arrow_down, size: 15, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         ],
@@ -312,7 +312,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
           const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onSurface,
@@ -370,7 +370,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
               children: [
                 Text(
                   expense.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13.5,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -414,7 +414,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             children: [
               Text(
                 '₹ ${expense.amount.toStringAsFixed(0)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -429,7 +429,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 ),
                 child: Text(
                   expense.category,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 9.5,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -521,7 +521,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Add New Expense', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Add New Expense', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
                   ],
                 ),
@@ -562,10 +562,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Expense Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                                Text('Expense Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                                 Text(
                                   '${selectedExpenseDate.day}/${selectedExpenseDate.month}/${selectedExpenseDate.year}',
-                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -589,7 +589,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   value: selectedCat,
                   decoration: const InputDecoration(labelText: 'Category', border: OutlineInputBorder()),
                   items: standardCategories.map((cat) {
-                    return DropdownMenuItem(value: cat, child: Text(cat, style: const TextStyle(fontSize: 13)));
+                    return DropdownMenuItem(value: cat, child: Text(cat, style: TextStyle(fontSize: 13)));
                   }).toList(),
                   onChanged: (val) {
                     if (val != null) {
@@ -647,7 +647,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       context.read<CateringProvider>().addExpense(newExpense);
                       Navigator.pop(ctx);
                     },
-                    child: const Text('Save Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: Text('Save Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -704,7 +704,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Edit Expense', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Edit Expense', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
                   ],
                 ),
@@ -745,10 +745,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Expense Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
+                                Text('Expense Date', style: TextStyle(fontSize: 10.5, color: Colors.grey)),
                                 Text(
                                   '${selectedExpenseDate.day}/${selectedExpenseDate.month}/${selectedExpenseDate.year}',
-                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -772,7 +772,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   value: selectedCat,
                   decoration: const InputDecoration(labelText: 'Category', border: OutlineInputBorder()),
                   items: standardCategories.map((cat) {
-                    return DropdownMenuItem(value: cat, child: Text(cat, style: const TextStyle(fontSize: 13)));
+                    return DropdownMenuItem(value: cat, child: Text(cat, style: TextStyle(fontSize: 13)));
                   }).toList(),
                   onChanged: (val) {
                     if (val != null) {
@@ -824,7 +824,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                       context.read<CateringProvider>().updateExpense(updated);
                       Navigator.pop(ctx);
                     },
-                    child: const Text('Save Changes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: Text('Save Changes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -840,12 +840,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Expense?'),
-        content: const Text('Are you sure you want to remove this expense record?'),
+        title: Text('Delete Expense?'),
+        content: Text('Are you sure you want to remove this expense record?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text('Cancel'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -856,7 +856,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 const SnackBar(content: Text('Expense record deleted!')),
               );
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text('Delete', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
