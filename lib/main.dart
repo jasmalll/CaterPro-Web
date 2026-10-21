@@ -49,29 +49,33 @@ class CaterProApp extends StatelessWidget {
 
   ThemeData _buildTheme(Brightness brightness) {
     final dark = brightness == Brightness.dark;
-    const green = Color(0xFF16865B);
+    const green = Color(0xFF147D59);
+    const navy = Color(0xFF142A3A);
     final scheme = ColorScheme.fromSeed(
       seedColor: green,
       brightness: brightness,
-      surface: dark ? const Color(0xFF151D24) : Colors.white,
+      surface: dark ? const Color(0xFF151F28) : const Color(0xFFFFFFFF),
     );
-    final border = dark ? const Color(0xFF2B3741) : const Color(0xFFE7ECF0);
+    final border = dark ? const Color(0xFF2B3944) : const Color(0xFFE5EAF0);
     final surface = dark ? const Color(0xFF151D24) : Colors.white;
-    final background = dark ? const Color(0xFF0D141A) : const Color(0xFFF7F9FB);
+    final background = dark ? const Color(0xFF0B1218) : const Color(0xFFF4F7F8);
     final foreground = dark ? const Color(0xFFF2F6F8) : const Color(0xFF17232D);
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      colorScheme: scheme.copyWith(primary: green, secondary: const Color(0xFFD99A35)),
+      colorScheme: scheme.copyWith(primary: green, secondary: const Color(0xFFE3A642), surface: surface),
       primaryColor: green,
+      splashFactory: InkSparkle.splashFactory,
       scaffoldBackgroundColor: background,
       cardColor: surface,
       dividerColor: border,
       fontFamily: 'Inter',
+      visualDensity: VisualDensity.standard,
       textTheme: ThemeData(brightness: brightness).textTheme.apply(
         bodyColor: foreground,
         displayColor: foreground,
         fontFamily: 'Inter',
+      visualDensity: VisualDensity.standard,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: background,
@@ -88,7 +92,7 @@ class CaterProApp extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(24),
           side: BorderSide(color: border),
         ),
       ),
@@ -99,7 +103,7 @@ class CaterProApp extends StatelessWidget {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide(color: border)),
         enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide(color: border)),
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: const BorderSide(color: green, width: 1.5)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: green, foregroundColor: Colors.white, elevation: 3),
       navigationBarTheme: NavigationBarThemeData(
@@ -143,18 +147,61 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final dark = theme.brightness == Brightness.dark;
+    const destinations = <({IconData icon, IconData selected, String label})>[
+      (icon: Icons.grid_view_rounded, selected: Icons.grid_view_rounded, label: 'Home'),
+      (icon: Icons.event_note_outlined, selected: Icons.event_note_rounded, label: 'Works'),
+      (icon: Icons.receipt_long_outlined, selected: Icons.receipt_long_rounded, label: 'Expenses'),
+      (icon: Icons.query_stats_outlined, selected: Icons.query_stats_rounded, label: 'Reports'),
+      (icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded, label: 'Calendar'),
+    ];
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) => setState(() => _currentIndex = index),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.space_dashboard_outlined), selectedIcon: Icon(Icons.space_dashboard_rounded), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.event_note_outlined), selectedIcon: Icon(Icons.event_note_rounded), label: 'Works'),
-          NavigationDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long_rounded), label: 'Expenses'),
-          NavigationDestination(icon: Icon(Icons.insights_outlined), selectedIcon: Icon(Icons.insights_rounded), label: 'Reports'),
-          NavigationDestination(icon: Icon(Icons.calendar_month_outlined), selectedIcon: Icon(Icons.calendar_month_rounded), label: 'Calendar'),
-        ],
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: theme.dividerColor.withOpacity(.85)),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(dark ? .16 : .07), blurRadius: 28, offset: const Offset(0, 8))],
+          ),
+          child: Row(
+            children: List.generate(destinations.length, (index) {
+              final item = destinations[index];
+              final selected = index == _currentIndex;
+              return Expanded(
+                child: Semantics(
+                  button: true,
+                  selected: selected,
+                  label: item.label,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(19),
+                    onTap: () => setState(() => _currentIndex = index),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeOutCubic,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      decoration: BoxDecoration(
+                        color: selected ? theme.colorScheme.primary.withOpacity(dark ? .22 : .10) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(19),
+                      ),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        AnimatedScale(scale: selected ? 1.08 : 1, duration: const Duration(milliseconds: 220), child: Icon(selected ? item.selected : item.icon, size: 21, color: selected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant)),
+                        const SizedBox(height: 4),
+                        Text(item.label, maxLines: 1, style: TextStyle(fontSize: 10, letterSpacing: -.1, fontWeight: selected ? FontWeight.w800 : FontWeight.w600, color: selected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant)),
+                      ]),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
       ),
     );
   }
